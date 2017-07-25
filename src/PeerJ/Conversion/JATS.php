@@ -12,6 +12,18 @@ class JATS
     protected $dir;
 
     /**
+     * @param string $text
+     *
+     * @return string
+     */
+    public static function formatDate($text, $format = DATE_W3C)
+    {
+        $date = new \DateTime($text);
+
+        return $date->format($format);
+    }
+
+    /**
      * Constructor
      *
      * Set the base directory for XSL files relative to this file
@@ -80,6 +92,29 @@ class JATS
         $params['timestamp'] = date('YmdHis');
 
         $output = $this->convert('jats-to-unixref', $input, $params);
+
+        if ($validate) {
+            $schema = 'http://www.crossref.org/schema/deposit/crossref4.3.6.xsd';
+            $this->validateWithSchema($output, $schema);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Convert to minimal CrossRef deposit XML
+     *
+     * @param \DOMDocument $input  XML document to be converted
+     * @param array        $params { 'depositorName', 'depositorEmail' }
+     * @param bool         $validate
+     *
+     * @return \DOMDocument
+     */
+    public function generateMinimalCrossRef(\DOMDocument $input, $params = array(), $validate = true)
+    {
+        $params['timestamp'] = date('YmdHis');
+
+        $output = $this->convert('jats-to-unixref-minimal', $input, $params);
 
         if ($validate) {
             $schema = 'http://www.crossref.org/schema/deposit/crossref4.3.6.xsd';
@@ -187,7 +222,10 @@ class JATS
         $stylesheet->load($path);
 
         $processor = new \XSLTProcessor();
-        $processor->registerPHPFunctions('rawurlencode');
+        $processor->registerPHPFunctions([
+            'rawurlencode',
+            'PeerJ\Conversion\JATS::formatDate'
+        ]);
         $processor->importStyleSheet($stylesheet);
         $processor->setParameter(null, $params);
 

@@ -16,9 +16,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 XSL="$DIR/../src/data/xsl"
 RESOURCES="$DIR/../schema"
 
-OUTPUT_DIR=$(mktemp -d -t validate-XXXX)
+OUTPUT_DIR=$(mktemp -d -t validate-XXX)
 
 export SGML_CATALOG_FILES="$RESOURCES/catalog.xml"
+# some user have reported issues when only setting SGML_CATALOG_FILES so also set XML_CATALOG_FILES:
+export XML_CATALOG_FILES="$RESOURCES/catalog.xml"
 #export SGML_CATALOG_FILES=catalog.xml
 
 echo "Validating against JATS DTD"
