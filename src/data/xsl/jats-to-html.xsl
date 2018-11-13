@@ -19,7 +19,7 @@
     <xsl:variable name="id" select="$meta/article-id[@pub-id-type='publisher-id']"/>
     <xsl:variable name="doi" select="$meta/article-id[@pub-id-type='doi']"/>
     <xsl:variable name="title" select="$meta/title-group/article-title"/>
-    <xsl:variable name="pub-date" select="$meta/pub-date[@date-type='pub'][@pub-type='epub']|$meta/pub-date[@date-type='preprint'][@pub-type='epreprint']"/>
+    <xsl:variable name="pub-date" select="$meta/pub-date[@date-type='pub'][@pub-type='epub']|$meta/pub-date[@date-type='preprint'][@pub-type='epreprint']|$meta/pub-date[@pub-type='epub-ppub']"/>
     <xsl:variable name="authors" select="$meta/contrib-group[@content-type='authors']/contrib[@contrib-type='author']"/>
     <xsl:variable name="editors" select="$meta/contrib-group[@content-type='editors']/contrib[@contrib-type='editor']"/>
 	<xsl:variable name="itemVersion" select="$meta/custom-meta-group/custom-meta[meta-name='version']/meta-value"/>
@@ -824,7 +824,7 @@
            data-fresco-group="figure"
            data-fresco-options="fit: 'width', ui: 'outside', thumbnails: false, loop: true, position: true, overflow: true, preload: false">
 	        <img class="{local-name()}"
-	             src="{$root}-1x.jpg"
+	             src="{$fig/graphic/@xlink:href}.jpg"
 	             itemprop="contentUrl"
 	             sizes="(min-width: 1200px) 581px, (max-width: 1199px) and (min-width: 980px) 462px, (max-width: 979px) and (min-width: 768px) 347px, (max-width: 767px) calc(100vw - 50px)"
 	             srcset="{$root}-2x.jpg 1200w, {$root}-1x.jpg 600w, {$root}-small.jpg 355w"

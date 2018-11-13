@@ -85,11 +85,14 @@
                 </xsl:if>
 
                 <dl class="article-subjects">
+                    <dt>Article Type</dt>
+                    <dd><xsl:apply-templates select="article-categories/subj-group[@subj-group-type='heading']/subject" mode="front"/></dd>
+
                     <dt>Subject Areas</dt>
                     <dd><xsl:apply-templates select="article-categories/subj-group[@subj-group-type='categories']/subject" mode="front"/></dd>
 
                     <dt>Keywords</dt>
-                    <dd><xsl:apply-templates select="kwd-group[@kwd-group-type='author']/kwd" mode="front"/></dd>
+                    <dd><xsl:apply-templates select="kwd-group/kwd" mode="front"/></dd>
                 </dl>
 
                 <dl class="article-license">
