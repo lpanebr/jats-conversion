@@ -16,7 +16,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 XSL="$DIR/../src/data/xsl"
 RESOURCES="$DIR/../schema"
 
-OUTPUT_DIR=$(mktemp -d -t validate-XXX)
+OUTPUT_DIR=$(mktemp -d -t `echo $USER"-validate-XXX"` -p ./)
 
 export SGML_CATALOG_FILES="$RESOURCES/catalog.xml"
 # some user have reported issues when only setting SGML_CATALOG_FILES so also set XML_CATALOG_FILES:
@@ -30,6 +30,8 @@ echo "Validating against JATS XSD"
 # TODO: detect version or add option
 xmllint --nonet $TRACE --noout --catalogs --schema 'http://jats.nlm.nih.gov/publishing/1.1/xsd/JATS-journalpublishing1.xsd' "$ARTICLE"
 
+if [ 1 -eq 0 ]
+then
 echo "Validating for CrossRef DOI deposition"
 xsltproc --catalogs \
     --nodtdattr \
@@ -45,6 +47,7 @@ OUTPUT="$OUTPUT_DIR/$FILE-crossref-schematron-report.xml"
 xsltproc --catalogs --stringparam "timestamp" `date +"%s"` "$XSL/jats-to-unixref.xsl" "$ARTICLE" > "$OUTPUT_DIR/crossref.xml"
 saxon "$OUTPUT_DIR/crossref.xml" "$RESOURCES/crossref/schematron.xsl" > "$OUTPUT"
 echo "CrossRef schematron report written to $OUTPUT"
+fi
 
 echo "Checking PMC tagging style"
 OUTPUT="$OUTPUT_DIR/$FILE-nlm-style-report.html"
