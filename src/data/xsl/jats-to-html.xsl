@@ -817,7 +817,7 @@
         <xsl:variable name="fig" select=".."/>
         <xsl:variable name="fig-id" select="$fig/@id"/>
         <xsl:variable name="root" select="concat($static-root, substring-before(@xlink:href, '.'))"/>
-        <a href="{$root}-2x.jpg"
+        <a href="{$fig/graphic/@xlink:href}.jpg"
            title="View the full image"
            class="fresco"
            data-fresco-caption="{$fig/label}: {$fig/caption/title}"
@@ -825,13 +825,8 @@
            data-fresco-options="fit: 'width', ui: 'outside', thumbnails: false, loop: true, position: true, overflow: true, preload: false">
 	        <img class="{local-name()}"
 	             src="{$fig/graphic/@xlink:href}.jpg"
-	             itemprop="contentUrl"
-	             sizes="(min-width: 1200px) 581px, (max-width: 1199px) and (min-width: 980px) 462px, (max-width: 979px) and (min-width: 768px) 347px, (max-width: 767px) calc(100vw - 50px)"
-	             srcset="{$root}-2x.jpg 1200w, {$root}-1x.jpg 600w, {$root}-small.jpg 355w"
 	             data-image-id="{$fig-id}"
 	             alt="{$fig/caption/title}"
-	             data-full="{$root}-full.png"
-	             data-thumb="{$root}-thumb.jpg"
 	             data-original="{$static-root}{@xlink:href}"
 	             data-image-type="figure">
 		        <xsl:apply-templates select="@*"/>
