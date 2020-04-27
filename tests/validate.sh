@@ -30,8 +30,6 @@ echo "Validating against JATS XSD"
 # TODO: detect version or add option
 xmllint --nonet $TRACE --noout --catalogs --schema 'http://jats.nlm.nih.gov/publishing/1.1/xsd/JATS-journalpublishing1.xsd' "$ARTICLE"
 
-if [ 1 -eq 0 ]
-then
 echo "Validating for CrossRef DOI deposition"
 DEPOSITION="$OUTPUT_DIR/$FILE-CrossRef-DOI-deposition.xml"
 echo "Creating CrossRef DOI deposition - $DEPOSITION"
@@ -51,7 +49,6 @@ OUTPUT="$OUTPUT_DIR/$FILE-crossref-schematron-report.xml"
 # note this saxon8.jar is downloaded by the schema folder makefile, and copied here
 java -jar saxon8.jar "$DEPOSITION" "$RESOURCES/crossref/schematron.xsl" > "$OUTPUT"
 echo "CrossRef schematron report written to $OUTPUT"
-fi
 
 echo "Checking PMC tagging style"
 OUTPUT="$OUTPUT_DIR/$FILE-nlm-style-report.html"
